@@ -2,7 +2,7 @@ FROM node:lts-bullseye AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm install 
+RUN npm install
 
 COPY . ./
 RUN npm run build

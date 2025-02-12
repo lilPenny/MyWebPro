@@ -1,0 +1,13 @@
+name: Build and publish image to Docker Hub
+on: workflow_dispatch
+
+jobs:
+    publish_images:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@v5
+            - name: build image
+              run: docker build ./ -t asdmx/mywebrepo:latest
+            - name: push image
+              run: docker push asdmx/mywebrepo:latest
