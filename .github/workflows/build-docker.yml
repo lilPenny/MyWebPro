@@ -6,8 +6,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: checkout
-              uses: actions/checkout@v5
+              uses: actions/checkout@v4
             - name: build image
               run: docker build ./ -t asdmx/mywebrepo:latest
             - name: push image
-              run: docker push asdmx/mywebrepo:latest
+              run: |
+                docker login -u ${{ secrets.DOCKER_HUB_LOGIN }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
+                docker push asdmx/mywebrepo:latest
