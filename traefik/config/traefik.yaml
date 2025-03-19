@@ -19,7 +19,6 @@ entryPoints:
 certificatesResolvers:
   cloudflare:
     acme:
-      email: "${EMAIL}"
       storage: /var/traefik/certs/cloudflare-acme.json
       caServer: 'https://acme-staging-v02.api.letsencrypt.org/directory'
       keyType: EC256
