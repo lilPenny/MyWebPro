@@ -1,0 +1,30 @@
+---
+services:
+  traefik:
+    image: traefik:v3.3.4
+    container_name: traefik-myWeb
+    ports:
+      - "80:80"   #  HTTP
+      - "443:443" # HTTPS
+      # The Web UI
+      - "8080:8080"
+    environment:
+      CF_DNS_API_TOKEN: "${CF_DNS_API_TOKEN}"
+      EMAIL: "${EMAIL}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ./data/certs/:/var/traefik/certs/:rw
+    restart: unless-stopped
+
+  myWeb:
+    image: asdmx/mywebrepo:latest
+    container_name: myWeb
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.myWeb-http.rule=Host(`pennyxz.com`)
+      - traefik.http.routers.myWeb-http.entrypoints=web
+      - traefik.http.routers.myWeb-https.tls=true
+      - traefik.http.routers.myWeb-https.tls.certresolver=cloudflare
+      - traefik.http.routers.myWeb-https.entrypoints=websecure
+      - traefik.http.routers.myWeb-https.rule=Host(`pennyxz.com`)
