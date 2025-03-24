@@ -27,3 +27,19 @@ jobs:
           tags: |
             asdmx/mywebrepo:latest_v${{ github.run_number }}
             asdmx/mywebrepo:latest
+      
+      - name: Create SSM association via CLI
+        run: |
+          aws ssm create-association \
+            --name "AWS-ApplyAnsiblePlaybooks" \
+            --targets Key=tag:Name,Values=webInstance \
+            --parameters '{
+                "SourceType": ["GitHub"],
+                "SourceInfo": ["{\"owner\":\"${{ github.repository_owner }}\", \"repository\":\"${{ github.event.repository.name }}\", \"path\":\"ansible\", \"getOptions\":\"branch:master\"}"],
+                "InstallDependencies": ["False"],
+                "PlaybookFile": ["/roles/CD/tasks/main.yml"],
+                "Check": ["False"],
+                "Verbose": ["-v"],
+                "TimeoutSeconds": ["3600"]
+                }' \
+              --association-name "Ansible-Playbook-Association"
