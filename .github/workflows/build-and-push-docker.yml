@@ -53,9 +53,9 @@ jobs:
             --targets Key=tag:Name,Values=webInstance \
             --parameters '{
                 "SourceType": ["GitHub"],
-                "SourceInfo": ["{\"owner\":\"${{ github.repository_owner }}\", \"repository\":\"MyWebProIAAC\", \"path\":\"ansible\", \"getOptions\":\"branch:master\"}"],
+                "SourceInfo": ["{\"owner\":\"${{ github.repository_owner }}\", \"repository\":\"MyWebProIAAC\", \"path\":\"ansible\roles\CD\tasks\", \"getOptions\":\"branch:master\"}"],
                 "InstallDependencies": ["False"],
-                "PlaybookFile": ["roles/CD/tasks/main.yml"],
+                "PlaybookFile": ["main.yml"],
                 "Check": ["False"],
                 "Verbose": ["-v"],
                 "TimeoutSeconds": ["3600"]
