@@ -55,7 +55,7 @@ jobs:
                 "SourceType": ["GitHub"],
                 "SourceInfo": ["{\"owner\":\"${{ github.repository_owner }}\", \"repository\":\"MyWebProIAAC\", \"path\":\"ansible\", \"getOptions\":\"branch:master\"}"],
                 "InstallDependencies": ["False"],
-                "PlaybookFile": ["/roles/CD/tasks/main.yml"],
+                "PlaybookFile": ["roles/CD/tasks/main.yml"],
                 "Check": ["False"],
                 "Verbose": ["-v"],
                 "TimeoutSeconds": ["3600"]
