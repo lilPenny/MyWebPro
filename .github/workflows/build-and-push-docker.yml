@@ -1,7 +1,16 @@
 name: ci
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to perform'
+        required: true
+        default: 'docker'
+        type: choice
+        options:
+          - docker
+          - ansible
 
 env:
     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -26,6 +35,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
       -
         name: Build and push
+        id: build
         uses: docker/build-push-action@v6
         with:
           push: true
@@ -34,6 +44,7 @@ jobs:
             asdmx/mywebrepo:latest
       
       - name: Create SSM association via CLI
+        id: ansible
         run: |
           aws ssm create-association \
             --name "AWS-ApplyAnsiblePlaybooks" \
