@@ -36,6 +36,7 @@ jobs:
       -
         name: Build and push
         id: build
+        if: ${{ github.event.inputs.action == 'build' }}
         uses: docker/build-push-action@v6
         with:
           push: true
@@ -45,13 +46,14 @@ jobs:
       
       - name: Create SSM association via CLI
         id: ansible
+        if: ${{ github.event.inputs.action == 'ansible' }}
         run: |
           aws ssm create-association \
             --name "AWS-ApplyAnsiblePlaybooks" \
             --targets Key=tag:Name,Values=webInstance \
             --parameters '{
                 "SourceType": ["GitHub"],
-                "SourceInfo": ["{\"owner\":\"${{ github.repository_owner }}\", \"repository\":\"${{ github.event.repository.name }}\", \"path\":\"ansible\", \"getOptions\":\"branch:master\"}"],
+                "SourceInfo": ["{\"owner\":\"${{ github.repository_owner }}\", \"repository\":\"MyWebProIAAC\", \"path\":\"ansible\", \"getOptions\":\"branch:master\"}"],
                 "InstallDependencies": ["False"],
                 "PlaybookFile": ["/roles/CD/tasks/main.yml"],
                 "Check": ["False"],
